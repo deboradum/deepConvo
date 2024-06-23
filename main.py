@@ -6,7 +6,7 @@ conversation = []
 
 
 def converse(c1, c2, convo_duration=10):
-    for _ in range(3):
+    for _ in range(convo_duration):
         c1_turn = c1.talk()
         c2.add_partner_response(c1_turn)
 
@@ -15,11 +15,11 @@ def converse(c1, c2, convo_duration=10):
 
 
 if __name__ == "__main__":
-    role1, role1_sysprompt, role2, role2_sysprompt = drugs_example()
+    # Get roles and prompts.
+    role1, role1_sysprompt, role2, role2_sysprompt, convo_file = drugs_example()
 
-    llm = MlxLlama()
+    llm = MlxLlama(temp=0.0)
+    c1 = Conversationalist(llm, conversation, role1, role1_sysprompt, convo_file, True)
+    c2 = Conversationalist(llm, conversation, role2, role2_sysprompt, convo_file, True)
 
-    c1 = Conversationalist(llm, conversation, role1, role1_sysprompt, True)
-    c2 = Conversationalist(llm, conversation, role2, role2_sysprompt, True)
-
-    converse(c1, c2, 10)
+    converse(c1, c2, 15)

@@ -65,9 +65,9 @@ class MlxLlama():
             self.tokenizer,
             prompt=history_to_prompt(history),
             temp=self.temp,
-            repetition_penalty=0.8,
-            repetition_context_size=200,
-            max_tokens=200,
+            repetition_penalty=1.3,
+            repetition_context_size=4000,
+            max_tokens=1000,
         )
 
         return response
