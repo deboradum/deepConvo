@@ -53,25 +53,30 @@ def history_to_prompt(history):
 
 
 class MlxLlama():
-    def __init__(self, model_name="mlx-community/Meta-Llama-3-8B-Instruct-8bit"):
+    def __init__(self, temp, model_name="mlx-community/Meta-Llama-3-8B-Instruct-8bit"):
         model, tokenizer = load(model_name)
         self.model = model
         self.tokenizer = tokenizer
+        self.temp = temp
 
     def run(self, history):
         response = generate(
             self.model,
             self.tokenizer,
             prompt=history_to_prompt(history),
-            # verbose=True,
-            max_tokens=10000,
+            temp=self.temp,
+            repetition_penalty=0.8,
+            repetition_context_size=200,
+            max_tokens=200,
         )
 
         return response
 
 
 class OpenAi():
-    def __init__(self, model_name):
+    def __init__(self, temp, model_name="gpt-3.5-turbo"):
+        self.temp = temp
+
         load_dotenv()
         self.client = OpenAI()
         # Recommended to use 'gpt-3.5-turbo' or 'gpt-4o'
@@ -81,6 +86,7 @@ class OpenAi():
         response = self.client.chat.completions.create(
             model=self.model_name,
             messages=history,
+            temperature=self.temp
         )
 
         return response.choices[0].message.content
