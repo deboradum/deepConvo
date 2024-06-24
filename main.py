@@ -1,6 +1,11 @@
 from LlmClient import MlxLlama
 from Conversationalist import Conversationalist
-from Examples import drugs_example
+from Examples import (
+    drugs_example,
+    flatearth_example,
+    cartman_kyle_business_example,
+    randy_marsh_example,
+)
 
 conversation = []
 
@@ -16,7 +21,9 @@ def converse(c1, c2, convo_duration=10):
 
 if __name__ == "__main__":
     # Get roles and prompts.
-    role1, role1_sysprompt, role2, role2_sysprompt, convo_file = drugs_example()
+    role1, role1_sysprompt, role2, role2_sysprompt, convo_file = (
+        cartman_kyle_business_example()
+    )
 
     llm = MlxLlama(temp=0.0)
     c1 = Conversationalist(llm, conversation, role1, role1_sysprompt, convo_file, True)
